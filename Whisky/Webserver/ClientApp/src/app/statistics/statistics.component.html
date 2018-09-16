@@ -6,8 +6,8 @@
     <th title="Pressure is measured in millibar">Pressure (mb)</th>
   </tr>
   <tr *ngFor="let measurement of measurements">
-    <td>{{measurement.id}}</td>
-    <td>{{measurement.temperatureCelsius}}</td>
+    <td>{{measurement.sensorID}}</td>
+    <td>{{measurement.temperature}}</td>
     <td>{{measurement.pressure}}</td>
   </tr>
 </table>

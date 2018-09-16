@@ -1,5 +1,5 @@
 export class Measurement {
-  id: string;
-  temperatureCelsius: number;
+  sensorID: string;
+  temperature: number;
   pressure: number;
 }

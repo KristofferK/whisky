@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Measurement } from '../../models/measurement';
 import { MeasurementService } from '../measurement.service';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 
 @Component({
   selector: 'app-statistics-component',
@@ -8,21 +9,24 @@ import { MeasurementService } from '../measurement.service';
 })
 export class StatisticsComponent implements OnInit {
   public measurements: Measurement[] = [];
+  private hubConnection: HubConnection;
 
   constructor(private measurementService: MeasurementService) {
   }
 
   ngOnInit(): void {
-    setInterval(() => {
-      const measurement = new Measurement();
-      measurement.id = this.getRandomInt(1, 3).toString();
-      measurement.pressure = this.getRandomInt(10, 30) / 10;
-      measurement.temperatureCelsius = this.getRandomInt(500, 700) / 10;
-      this.measurements.unshift(measurement);
-    }, 950)
-  }
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl('https://localhost:44330/whiskyHub')
+      .build();
 
-  private getRandomInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    this.hubConnection
+      .start()
+      .then(() => console.log('Connection started!'))
+      .catch(err => console.log('Error while establishing connection :('));
+
+    this.hubConnection.on('MeasurementAdded', (measurement: Measurement) => {
+      console.log('Adding', measurement);
+      this.measurements.unshift(measurement);
+    });
   }
 }

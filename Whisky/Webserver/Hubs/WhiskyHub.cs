@@ -9,9 +9,15 @@ namespace Webserver.Hubs
 {
     public class WhiskyHub : Hub
     {
+        protected IHubContext<WhiskyHub> _context;
+        public WhiskyHub(IHubContext<WhiskyHub> context)
+        {
+            _context = context;
+        }
+
         public async Task AddMeasurement(Measurement measurement)
         {
-            await Clients.All.SendAsync("MeasurementAdded", measurement);
+            await _context.Clients.All.SendAsync("MeasurementAdded", measurement);
         }
     }
 }
