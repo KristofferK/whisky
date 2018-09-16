@@ -37,7 +37,7 @@ namespace SampleDataSender
                 return;
             }
 
-            SendToServer(measurement, true);
+            SendToServer(measurement, true, Target.SelectedValue.ToString());
         }
 
         private Measurement GenerateMeasurement()
@@ -58,25 +58,27 @@ namespace SampleDataSender
             }
         }
 
-        private async void SendToServer(Measurement measurement, bool updateUi)
+        private async void SendToServer(Measurement measurement, bool updateUi, string baseUri)
         {
             var json = JsonConvert.SerializeObject(measurement);
             if (updateUi)
             {
-                MessageToServer.Text = "Sending:\n" + json;
+                MessageToServer.Text = $"Sending to {baseUri}api/Measurement/Add:\n" + json;
             }
 
-            var response = await client.PutAsync("https://localhost:44330/api/Measurement/Add", new StringContent(json, Encoding.UTF8, "application/json"));
+            var response = await client.PutAsync(baseUri + "api/Measurement/Add", new StringContent(json, Encoding.UTF8, "application/json"));
             var content = await response.Content.ReadAsStringAsync();
 
             if (updateUi)
             {
-                MessageToServer.Text = $"Sent:\n{json}\n\nReceived:\n{content}";
+                MessageToServer.Text = $"Sent to {baseUri}api/Measurement/Add:\n{json}\n\nReceived from {baseUri}api/Measurement/Add:\n{content}";
             }
         }
 
         private void FloodServer_ButtonClicked(object sender, RoutedEventArgs e)
         {
+            var baseUri = Target.SelectedValue.ToString();
+            MessageToServer.Text = $"Flooding {baseUri}api/Measurement/Add";
             new Thread(() =>
             {
                 for (var i = 0; i < 7; i++)
@@ -88,7 +90,7 @@ namespace SampleDataSender
                             Pressure = random.Next(1000, 1300),
                             SensorID = sensorID.ToString(),
                             Temperature = random.Next(3000, 3500)
-                        }, false);
+                        }, false, baseUri);
                         Thread.Sleep(30);
                     }
                     Thread.Sleep(random.Next(100, 350));
