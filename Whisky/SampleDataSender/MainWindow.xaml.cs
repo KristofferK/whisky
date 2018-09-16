@@ -47,7 +47,7 @@ namespace SampleDataSender
 
                 return new Measurement
                 {
-                    Temperature = int.Parse(Temperature.Text),
+                    Temperature = float.Parse(Temperature.Text.Replace(",",".")),
                     Pressure = int.Parse(Pressure.Text),
                     SensorID = SensorID.SelectedValue.ToString()
                 };
@@ -89,7 +89,7 @@ namespace SampleDataSender
                         {
                             Pressure = random.Next(1000, 1300),
                             SensorID = sensorID.ToString(),
-                            Temperature = random.Next(3000, 3500)
+                            Temperature = (float)(random.Next(5000, 9000) / 100.0)
                         }, false, baseUri);
                         Thread.Sleep(30);
                     }

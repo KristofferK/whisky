@@ -20,39 +20,33 @@ namespace Webserver.Controllers
         }
 
         [HttpPut("[action]")]
-        public JsonResult Add([FromBody] Measurement content)
+        public JsonResult Add([FromBody] Measurement measurement)
         {
-            var measurement = new MeasurementCelsius()
-            {
-                Pressure = content.Pressure,
-                Temperature = Math.Round(content.Temperature / 10 - 273.15, 2),
-                SensorID = content.SensorID,
-                DateMeasured = DateTime.Now
-            };
+            measurement.DateMeasured = DateTime.Now;
             _hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
-            return Json(new { Message = "Added", PayloadReceived = content, MeasurementAdded = measurement });
+            return Json(new { Message = "Added", MeasurementAdded = measurement });
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<MeasurementCelsius> GetExistingMeasurements()
+        public IEnumerable<Measurement> GetExistingMeasurements()
         {
-            return new List<MeasurementCelsius>()
+            return new List<Measurement>()
             {
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 0, 0),
                     Pressure = 1200,
                     SensorID = "1",
                     Temperature = 40.2
                 },
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 0, 0),
                     Pressure = 1202,
                     SensorID = "2",
                     Temperature = 40.3
                 },
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 0, 0),
                     Pressure = 1201,
@@ -60,21 +54,21 @@ namespace Webserver.Controllers
                     Temperature = 40.1
                 },
 
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 5, 0),
                     Pressure = 1201,
                     SensorID = "1",
                     Temperature = 44.9
                 },
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 5, 0),
                     Pressure = 1202,
                     SensorID = "2",
                     Temperature = 45
                 },
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 5, 0),
                     Pressure = 1200,
@@ -82,21 +76,21 @@ namespace Webserver.Controllers
                     Temperature = 45.1
                 },
 
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 10, 0),
                     Pressure = 1210,
                     SensorID = "1",
                     Temperature = 49.1
                 },
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 10, 0),
                     Pressure = 1210,
                     SensorID = "2",
                     Temperature = 50.2
                 },
-                new MeasurementCelsius()
+                new Measurement()
                 {
                     DateMeasured = new DateTime(2018, 9, 16, 18, 10, 0),
                     Pressure = 1209,

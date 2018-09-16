@@ -8,7 +8,7 @@ namespace SampleDataSender
 {
     public class Measurement
     {
-        public int Temperature { get; set; }
+        public float Temperature { get; set; }
         public int Pressure { get; set; }
         public string SensorID { get; set; }
     }
