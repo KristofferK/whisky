@@ -89,7 +89,7 @@ namespace SampleDataSender
                             SensorID = sensorID.ToString(),
                             Temperature = random.Next(3000, 3500)
                         }, false);
-                        Thread.Sleep(150);
+                        Thread.Sleep(30);
                     }
                     Thread.Sleep(random.Next(100, 350));
                 }
