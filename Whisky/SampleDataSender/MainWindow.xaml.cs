@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ namespace SampleDataSender
 {
     public partial class MainWindow : Window
     {
+        private static Random random = new Random();
         private HttpClient client = new HttpClient();
         public MainWindow()
         {
@@ -35,9 +37,7 @@ namespace SampleDataSender
                 return;
             }
 
-            var json = JsonConvert.SerializeObject(measurement);
-            MessageToServer.Text = "Sending:\n" + json;
-            SendToServer(json);
+            SendToServer(measurement, true);
         }
 
         private Measurement GenerateMeasurement()
@@ -58,11 +58,45 @@ namespace SampleDataSender
             }
         }
 
-        private async void SendToServer(string json)
+        private async void SendToServer(Measurement measurement, bool updateUi)
         {
+            var json = JsonConvert.SerializeObject(measurement);
+            if (updateUi)
+            {
+                MessageToServer.Text = "Sending:\n" + json;
+            }
+
             var response = await client.PutAsync("https://localhost:44330/api/Measurement/Add", new StringContent(json, Encoding.UTF8, "application/json"));
             var content = await response.Content.ReadAsStringAsync();
-            MessageToServer.Text = $"Sent:\n{json}\n\nReceived:\n{content}";
+
+            if (updateUi)
+            {
+                MessageToServer.Text = $"Sent:\n{json}\n\nReceived:\n{content}";
+            }
+        }
+
+        private void FloodServer_ButtonClicked(object sender, RoutedEventArgs e)
+        {
+            new Thread(() =>
+            {
+                for (var i = 0; i < 7; i++)
+                {
+                    for (var sensorID = 1; sensorID < 4; sensorID++)
+                    {
+                        SendToServer(new Measurement()
+                        {
+                            Pressure = random.Next(1000, 1300),
+                            SensorID = sensorID.ToString(),
+                            Temperature = random.Next(3000, 3500)
+                        }, false);
+                        Thread.Sleep(150);
+                    }
+                    Thread.Sleep(random.Next(100, 350));
+                }
+            })
+            {
+                IsBackground = true
+            }.Start();
         }
     }
 }
