@@ -3,4 +3,4 @@ We need statistics of our whisky production during the mashing process in the po
 
 Measuremetns will later on be sent from an Arduino, but in the first iterations, we'll use a WPF application to send sample data.
 
-Keywords: Angular, ASP.NET Core 2.1, SignalR.
+Keywords: Angular, ASP.NET Core 2.1, SignalR Core.
