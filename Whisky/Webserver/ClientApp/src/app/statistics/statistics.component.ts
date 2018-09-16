@@ -16,7 +16,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.measurementSubscription = this.measurementService.measurements.subscribe(measurement => {
-      this.measurements = this.measurements.slice(0, 9);
+      this.measurements = this.measurements.slice(0, 14);
       this.measurements.unshift(measurement);
       console.log('Added', measurement);
     })

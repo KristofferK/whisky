@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Measurement } from '../models/measurement';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { Observable, ReplaySubject } from 'rxjs';
+import { environment } from './../environments/environment';
 
 @Injectable()
 export class MeasurementService {
@@ -11,7 +12,7 @@ export class MeasurementService {
 
   constructor(private http: HttpClient) {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:44330/whiskyHub')
+      .withUrl(environment.serverUrl + 'whiskyHub')
       .build();
 
     this.hubConnection
@@ -27,7 +28,7 @@ export class MeasurementService {
   }
 
   private getTasksFromApi(): void {
-    this.http.get<Measurement[]>('https://localhost:44330/api/Measurement/GetExistingMeasurements').subscribe((measurements: Measurement[]) => {
+    this.http.get<Measurement[]>(environment.serverUrl + 'api/Measurement/GetExistingMeasurements').subscribe((measurements: Measurement[]) => {
       measurements.forEach(task => this.measurements.next(task))
     });
   }
