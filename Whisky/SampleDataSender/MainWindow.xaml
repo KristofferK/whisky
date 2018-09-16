@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Whisky Data Sender" Height="332.019" Width="623.55" ResizeMode="NoResize">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062"><Run Text="Te"/><Run Text="mperature"/><Run Text=" ("/><Run Text="deci"/><Run Text="kevlin)"/><LineBreak/><Run/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062"><Run Text="Te"/><Run Text="mperature"/><Run Text=" ("/><Run Text="deci"/><Run Text="kelvin)"/><LineBreak/><Run/></TextBlock>
         <TextBox Name="Temperature" HorizontalAlignment="Left" Height="23" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Pressure (millibar)"/>
         <TextBox Name="Pressure" HorizontalAlignment="Left" Height="23" Margin="149,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
