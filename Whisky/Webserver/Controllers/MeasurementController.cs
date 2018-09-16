@@ -25,7 +25,7 @@ namespace Webserver.Controllers
             var measurement = new MeasurementCelsius()
             {
                 Pressure = content.Pressure,
-                Temperature = content.Temperature / 10 - 273.15,
+                Temperature = Math.Round(content.Temperature / 10 - 273.15, 2),
                 SensorID = content.SensorID
             };
             _hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
