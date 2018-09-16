@@ -26,7 +26,8 @@ namespace Webserver.Controllers
             {
                 Pressure = content.Pressure,
                 Temperature = Math.Round(content.Temperature / 10 - 273.15, 2),
-                SensorID = content.SensorID
+                SensorID = content.SensorID,
+                DateMeasured = DateTime.Now
             };
             _hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
             return Json(new { Message = "Added", PayloadReceived = content, MeasurementAdded = measurement });

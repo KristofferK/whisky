@@ -1,11 +1,13 @@
 <h1>Statistics</h1>
 <table class="table table-striped">
   <tr>
+    <th title="Date when the measurement was registered">Measurement date</th>
     <th title="ID of the sensor that registered the measurement">Sensor ID</th>
     <th title="Temperature is measured in celsius">Temperature (&deg;C)</th>
     <th title="Pressure is measured in millibar">Pressure (mb)</th>
   </tr>
   <tr *ngFor="let measurement of measurements">
+    <td>{{measurement.dateMeasured}}</td>
     <td>{{measurement.sensorID}}</td>
     <td>{{measurement.temperature}}</td>
     <td>{{measurement.pressure}}</td>
