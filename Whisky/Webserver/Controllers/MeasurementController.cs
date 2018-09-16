@@ -32,5 +32,11 @@ namespace Webserver.Controllers
             _hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
             return Json(new { Message = "Added", PayloadReceived = content, MeasurementAdded = measurement });
         }
+
+        [HttpGet("[action]")]
+        public IEnumerable<MeasurementCelsius> GetExistingMeasurements()
+        {
+            return new List<MeasurementCelsius>();
+        }
     }
 }
