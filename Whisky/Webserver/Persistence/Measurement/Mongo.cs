@@ -21,7 +21,14 @@ namespace Webserver.Persistence.Measurement
 
         public IEnumerable<Models.Measurement> GetLatest(int limit)
         {
-            throw new NotImplementedException();
+            var cursor = collection
+                .Find(e => true)
+                .SortByDescending(e => e["DateMeasured"])
+                .Limit(limit)
+                .SortBy(e => e["DateMeasured"])
+                .ToCursor();
+
+            return cursor.ToEnumerable().Select(GenerateMeasurement);
         }
 
         public IEnumerable<Models.Measurement> GetLatest(string sensorID, int limit)
@@ -33,18 +40,23 @@ namespace Webserver.Persistence.Measurement
         {
             var filter = Builders<BsonDocument>.Filter.Gt("DateMeasured", dateTime);
             var cursor = collection.Find(filter).SortBy(e => e["DateMeasured"]).ToCursor();
-            return cursor.ToEnumerable().Select(e => new Models.Measurement()
-            {
-                Pressure = e["Pressure"].AsInt32,
-                SensorID = e["SensorID"].AsString,
-                Temperature = e["Temperature"].AsDouble,
-                DateMeasured = e["DateMeasured"].ToUniversalTime()
-            });
+            return cursor.ToEnumerable().Select(GenerateMeasurement);
         }
 
         public void Insert(Models.Measurement measurement)
         {
             collection.InsertOneAsync(measurement.ToBsonDocument());
+        }
+
+        private Models.Measurement GenerateMeasurement(BsonDocument bson)
+        {
+            return new Models.Measurement()
+            {
+                Pressure = bson["Pressure"].AsInt32,
+                SensorID = bson["SensorID"].AsString,
+                Temperature = bson["Temperature"].AsDouble,
+                DateMeasured = bson["DateMeasured"].ToUniversalTime()
+            };
         }
     }
 }

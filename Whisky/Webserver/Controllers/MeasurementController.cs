@@ -38,7 +38,8 @@ namespace Webserver.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Measurement> GetExistingMeasurements()
         {
-            return persistency.GetLatest(DateTime.Now.AddMonths(-1));
+            return persistency.GetLatest(50);
+            // return persistency.GetLatest(DateTime.Now.AddMonths(-1));
         }
     }
 }
