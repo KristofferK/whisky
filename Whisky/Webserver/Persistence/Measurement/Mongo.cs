@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,12 @@ namespace Webserver.Persistence.Measurement
 {
     public class Mongo : IMeasurementPersistence
     {
-        private MongoClient client;
+        private IMongoCollection<BsonDocument> collection;
         public Mongo(string connectionString)
         {
-            client = new MongoClient(connectionString);
+            var client = new MongoClient(connectionString);
+            var database = client.GetDatabase("whisky_measurements");
+            collection = database.GetCollection<BsonDocument>("measurements");
         }
 
         public IEnumerable<Models.Measurement> GetLatest(int limit)
@@ -32,7 +35,7 @@ namespace Webserver.Persistence.Measurement
 
         public void Insert(Models.Measurement measurement)
         {
-            throw new NotImplementedException();
+            collection.InsertOneAsync(measurement.ToBsonDocument());
         }
     }
 }

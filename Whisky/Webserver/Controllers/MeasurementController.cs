@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Webserver.Hubs;
 using Webserver.Models;
+using Webserver.Persistence.Measurement;
 
 namespace Webserver.Controllers
 {
@@ -13,6 +14,12 @@ namespace Webserver.Controllers
     public class MeasurementController : Controller
     {
         private readonly IHubContext<WhiskyHub> _hubContext;
+        private static IMeasurementPersistence persistency;
+
+        static MeasurementController()
+        {
+            persistency = new Mongo(ConnectionStrings.MONGO_CONNECTION_STRING);
+        }
 
         public MeasurementController(IHubContext<WhiskyHub> hubContext)
         {
@@ -24,6 +31,7 @@ namespace Webserver.Controllers
         {
             measurement.DateMeasured = DateTime.Now;
             _hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
+            persistency.Insert(measurement);
             return Json(new { Message = "Added", MeasurementAdded = measurement });
         }
 
