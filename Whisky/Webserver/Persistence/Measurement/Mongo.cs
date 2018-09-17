@@ -24,7 +24,7 @@ namespace Webserver.Persistence.Measurement
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Models.Measurement> GetLatest(int sensorID, int limit)
+        public IEnumerable<Models.Measurement> GetLatest(string sensorID, int limit)
         {
             throw new NotImplementedException();
         }

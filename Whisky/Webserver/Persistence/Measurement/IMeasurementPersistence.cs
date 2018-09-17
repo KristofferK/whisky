@@ -9,7 +9,7 @@ namespace Webserver.Persistence.Measurement
     {
         void Insert(Models.Measurement measurement);
         IEnumerable<Models.Measurement> GetLatest(int limit);
-        IEnumerable<Models.Measurement> GetLatest(int sensorID, int limit);
+        IEnumerable<Models.Measurement> GetLatest(string sensorID, int limit);
         IEnumerable<Models.Measurement> GetLatest(DateTime dateTime);
         // IEnumerable<Models.Measurement> GetAbnormalities();
     }
