@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,15 @@ namespace Webserver.Persistence.Measurement
 
         public IEnumerable<Models.Measurement> GetLatest(DateTime dateTime)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BsonDocument>.Filter.Gt("DateMeasured", dateTime);
+            var cursor = collection.Find(filter).SortBy(e => e["DateMeasured"]).ToCursor();
+            return cursor.ToEnumerable().Select(e => new Models.Measurement()
+            {
+                Pressure = e["Pressure"].AsInt32,
+                SensorID = e["SensorID"].AsString,
+                Temperature = e["Temperature"].AsDouble,
+                DateMeasured = e["DateMeasured"].ToUniversalTime()
+            });
         }
 
         public void Insert(Models.Measurement measurement)
