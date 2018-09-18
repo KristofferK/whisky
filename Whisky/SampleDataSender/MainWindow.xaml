@@ -5,31 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SampleDataSender"
         mc:Ignorable="d"
-        Title="Whisky Data Sender" Height="332.019" Width="623.55" ResizeMode="NoResize">
+        Title="Whisky Data Sender" Height="332.019" Width="722.75" ResizeMode="NoResize">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Temperature (celsius)"></TextBlock>
-        <TextBox Name="Temperature" HorizontalAlignment="Left" Height="23" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="API Username"/>
+        <TextBox x:Name="APIUsername" HorizontalAlignment="Left" Height="23" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Pressure (millibar)"/>
-        <TextBox Name="Pressure" HorizontalAlignment="Left" Height="23" Margin="149,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="API Password"></TextBlock>
+        <TextBox x:Name="APIPassword" HorizontalAlignment="Left" Height="23" Margin="149,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Sensor ID"/>
-        <ComboBox Name="SensorID" HorizontalAlignment="Left" Margin="149,126,0,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content">
+        <TextBlock HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Temperature (celsius)"></TextBlock>
+        <TextBox Name="Temperature" HorizontalAlignment="Left" Height="23" Margin="149,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Pressure (millibar)"/>
+        <TextBox Name="Pressure" HorizontalAlignment="Left" Height="23" Margin="149,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="245"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="10,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Sensor ID"/>
+        <ComboBox Name="SensorID" HorizontalAlignment="Left" Margin="149,166,0,0" VerticalAlignment="Top" Width="245" SelectedValuePath="Content">
             <ComboBoxItem IsSelected="True" Content="1" HorizontalAlignment="Left" Width="118.4"/>
             <ComboBoxItem Content="2" HorizontalAlignment="Left" Width="118.4"/>
             <ComboBoxItem Content="3" HorizontalAlignment="Left" Width="118.4"/>
         </ComboBox>
 
-        <TextBlock HorizontalAlignment="Left" Margin="10,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Target"/>
-        <ComboBox x:Name="Target" HorizontalAlignment="Left" Margin="149,186,0,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content">
+        <TextBlock HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.329,-0.062" Text="Target"/>
+        <ComboBox x:Name="Target" HorizontalAlignment="Left" Margin="149,206,0,0" VerticalAlignment="Top" Width="245" SelectedValuePath="Content">
             <ComboBoxItem IsSelected="True" Content="https://localhost:44330/" HorizontalAlignment="Left" Width="220"/>
             <ComboBoxItem Content="https://whiskyserver.azurewebsites.net/" HorizontalAlignment="Left" Width="220"/>
         </ComboBox>
 
-        <Button Content="Send data to server" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="259" Height="49" Click="SendDataToServer_ButtonClicked"/>
+        <Button Content="Send data to server" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="384" Height="49" Click="SendDataToServer_ButtonClicked"/>
 
-        <TextBlock Name="MessageToServer" HorizontalAlignment="Left" Margin="294,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="220" Width="313"/>
+        <TextBlock Name="MessageToServer" HorizontalAlignment="Left" Margin="399,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="220" Width="307"/>
 
-        <Button Content="Flood server" HorizontalAlignment="Left" Margin="294,243,0,0" VerticalAlignment="Top" Width="313" Height="49" Click="FloodServer_ButtonClicked"/>
+        <Button Content="Flood server" HorizontalAlignment="Left" Margin="399,243,0,0" VerticalAlignment="Top" Width="307" Height="49" Click="FloodServer_ButtonClicked"/>
     </Grid>
 </Window>

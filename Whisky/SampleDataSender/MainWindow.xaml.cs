@@ -38,7 +38,7 @@ namespace SampleDataSender
                 return;
             }
 
-            SendToServer(measurement, true, Target.SelectedValue.ToString());
+            SendToServer(measurement, true, Target.SelectedValue.ToString(), GetAuthValue());
         }
 
         private Measurement GenerateMeasurement()
@@ -59,7 +59,7 @@ namespace SampleDataSender
             }
         }
 
-        private async void SendToServer(Measurement measurement, bool updateUi, string baseUri)
+        private async void SendToServer(Measurement measurement, bool updateUi, string baseUri, string auth)
         {
             var json = JsonConvert.SerializeObject(measurement);
             if (updateUi)
@@ -67,7 +67,7 @@ namespace SampleDataSender
                 MessageToServer.Text = $"Sending to {baseUri}api/Measurement/Add:\n" + json;
             }
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
             var response = await client.PutAsync(baseUri + "api/Measurement/Add", new StringContent(json, Encoding.UTF8, "application/json"));
             var content = await response.Content.ReadAsStringAsync();
 
@@ -80,6 +80,7 @@ namespace SampleDataSender
         private void FloodServer_ButtonClicked(object sender, RoutedEventArgs e)
         {
             var baseUri = Target.SelectedValue.ToString();
+            var auth = GetAuthValue();
             MessageToServer.Text = $"Flooding {baseUri}api/Measurement/Add";
             new Thread(() =>
             {
@@ -92,7 +93,7 @@ namespace SampleDataSender
                             Pressure = random.Next(1000, 1300),
                             SensorID = sensorID.ToString(),
                             Temperature = (float)(random.Next(5000, 9000) / 100.0)
-                        }, false, baseUri);
+                        }, false, baseUri, auth);
                         Thread.Sleep(30);
                     }
                     Thread.Sleep(random.Next(100, 350));
@@ -101,6 +102,12 @@ namespace SampleDataSender
             {
                 IsBackground = true
             }.Start();
+        }
+
+        private string GetAuthValue()
+        {
+            var plainTextBytes = Encoding.GetEncoding("iso-8859-1").GetBytes($"{APIUsername.Text}:{APIPassword.Text}");
+            return Convert.ToBase64String(plainTextBytes);
         }
     }
 }
