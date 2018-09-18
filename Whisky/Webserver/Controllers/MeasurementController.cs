@@ -37,6 +37,11 @@ namespace Webserver.Controllers
                 return Json(new { Status = "Error", Message = authorized.Message });
             }
 
+            if (measurement == null)
+            {
+                return Json(new { Status = "Error", Message = "Could not generate a measurement from the specified body" });
+            }
+
             measurement.DateMeasured = DateTime.Now;
             hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
             persistency.Insert(measurement);
@@ -57,7 +62,15 @@ namespace Webserver.Controllers
             }
 
             var tokenEncoded = authorization.Substring(6);
-            var token = Encoding.GetEncoding("iso-8859-1").GetString(Convert.FromBase64String(tokenEncoded));
+            string token = null;
+            try
+            {
+                token = Encoding.GetEncoding("iso-8859-1").GetString(Convert.FromBase64String(tokenEncoded));
+            }
+            catch (Exception e)
+            {
+                return new ApiAuthorizationResponse("Authorization failed: " + e.Message);
+            }
 
             var colonIndex = token.IndexOf(':');
             if (colonIndex == -1)
