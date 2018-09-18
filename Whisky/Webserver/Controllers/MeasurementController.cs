@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 using Webserver.Hubs;
 using Webserver.Models;
 using Webserver.Persistence.Measurement;
+using Webserver.Validators;
 
 namespace Webserver.Controllers
 {
@@ -34,14 +35,15 @@ namespace Webserver.Controllers
             var authorized = GetAuthorization(authorization);
             if (!authorized.IsAuthorized)
             {
-                return Json(new { Status = "Error", Message = authorized.Message });
+                return Json(new { Status = "Error", Errors = new string[] { authorized.Message } });
             }
 
-            if (measurement == null)
+            var measurementErrors = MeasurementValidator.GetErrors(measurement);
+            if (measurementErrors != null)
             {
-                return Json(new { Status = "Error", Message = "Could not generate a measurement from the specified body" });
+                return Json(new { Status = "Error", Errors = measurementErrors });
             }
-
+            
             measurement.DateMeasured = DateTime.Now;
             hubContext.Clients.All.SendAsync("MeasurementAdded", measurement);
             persistency.Insert(measurement);
