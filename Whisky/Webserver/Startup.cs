@@ -6,18 +6,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System.IO;
 using Webserver.Hubs;
+using Webserver.Models;
 
 namespace Webserver
 {
     public class Startup
     {
+        private const string SERVER_SETTINGS_PATH = "server_settings.json";
+        public IConfiguration Configuration { get; }
+        public static Configuration ServerConfiguration { get; private set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ServerConfiguration = GetServerConfiguration();
         }
 
-        public IConfiguration Configuration { get; }
+        private Configuration GetServerConfiguration()
+        {
+            Configuration configuration = null;
+            if (!File.Exists(SERVER_SETTINGS_PATH))
+            {
+                configuration = new Configuration();
+            }
+            else
+            {
+                var configurationJson = File.ReadAllText(SERVER_SETTINGS_PATH);
+                configuration = JsonConvert.DeserializeObject<Configuration>(configurationJson);
+            }
+            File.WriteAllText(SERVER_SETTINGS_PATH, JsonConvert.SerializeObject(configuration, Formatting.Indented));
+            return configuration;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
