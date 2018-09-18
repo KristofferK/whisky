@@ -19,7 +19,12 @@
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/statistics"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-stats'></span> Statistics
+                        <span class='glyphicon glyphicon-th-list'></span> Statistics
+                    </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/statistics-visual"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-stats'></span> Visual statistics
                     </a>
                 </li>
             </ul>

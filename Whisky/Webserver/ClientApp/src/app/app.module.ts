@@ -9,13 +9,15 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { MeasurementService } from './measurement.service';
+import { GraphsComponent } from './graphs/graphs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    GraphsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -24,6 +26,7 @@ import { MeasurementService } from './measurement.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'statistics', component: StatisticsComponent },
+      { path: 'statistics-visual', component: GraphsComponent },
     ])
   ],
   providers: [MeasurementService],
