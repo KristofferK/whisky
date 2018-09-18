@@ -25,10 +25,10 @@ namespace Webserver.Persistence.Measurement
                 .Find(e => true)
                 .SortByDescending(e => e["DateMeasured"])
                 .Limit(limit)
-                .SortBy(e => e["DateMeasured"])
+                //.Sort(e => e["DateMeasured"]) Won't work. Will have to .Reverse() instead. Maybe because of mongo being lazy?
                 .ToCursor();
 
-            return cursor.ToEnumerable().Select(GenerateMeasurement);
+            return cursor.ToEnumerable().Select(GenerateMeasurement).Reverse();
         }
 
         public IEnumerable<Models.Measurement> GetLatest(string sensorID, int limit)
