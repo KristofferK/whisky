@@ -8,7 +8,7 @@ void loop() {
   String sensorId = "3";
   String auth = "dXNlcm5hbWU6cGFzc3dvcmQ=";
 
-  String query = "?auth=" + String(auth) + "&pressure=" + String(pressure) + "&temperature=" + String(temperature) + "&sensorId" + String(sensorId);
+  String query = "?auth=" + String(auth) + "&pressure=" + String(pressure) + "&temperature=" + String(temperature) + "&sensorId=" + String(sensorId);
 
   if (client.connect(server, 80)) { // if you get a connection, report back via serial:
     Serial.println("connected");
