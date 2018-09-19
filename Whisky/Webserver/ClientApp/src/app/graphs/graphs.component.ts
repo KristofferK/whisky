@@ -32,7 +32,7 @@ export class GraphsComponent implements OnInit {
     this.multi = [];
     let data: any[] = [];
     for (let i = 1; i < 20; i++) {
-      data.push({ "name": "" + i, "value": Math.random() + 20 / i });
+      data.push({ "name": "" + i, "value": Math.random() * 0.6 / i });
     }
     this.multi.push({
       "name": "Denmark",
@@ -42,7 +42,7 @@ export class GraphsComponent implements OnInit {
 
     let data2: any[] = [];
     for (let i = 1; i < 20; i++) {
-      data2.push({ "name": "" + i, "value": Math.random() + 20 / i });
+      data2.push({ "name": "" + i, "value": Math.random() * 0.6 / i });
     }
     this.multi.push({
       "name": "Sweden",
@@ -53,12 +53,12 @@ export class GraphsComponent implements OnInit {
 
     let i = 20;
     setInterval(() => {
-      this.multi[0]["series"].push({ "name": "" + i, "value": Math.random() + 20 / (i*3) });
-      this.multi[1]["series"].push({ "name": "" + i, "value": Math.random() + 20 / (i*3) });
+      this.multi[0]["series"].push({ "name": "" + i, "value": Math.random() * 300 / (i*3) });
+      this.multi[1]["series"].push({ "name": "" + i, "value": Math.random() * 300 / (i*3) });
       this.multi = [...this.multi];
       console.log(this.multi);
       i++;
-    }, 500)
+    }, 100)
   }
 
   onSelect(event) {
