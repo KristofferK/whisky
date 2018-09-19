@@ -2,7 +2,7 @@
 $data = [
     "Pressure" => $_GET['pressure'] ?? 0,
     "Temperature" => $_GET['temperature'] ?? 0,
-    "SensorID" => $_GET['sensorId'] ?? '0',
+    "SensorID" => $_GET['sensorId'] ?? '',
 ];
 
 $cred = base64_decode($_GET['auth']);
