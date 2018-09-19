@@ -18,7 +18,7 @@ if (client.connect(server, 80)) { // if you get a connection, report back via se
   Serial.println("connected");
   // Make a HTTP request:
   client.println("GET /arduino_proxy.php" + String(query) + " HTTP/1.1");
-  client.println("Host: andet.fobr.dk");
+  client.println("Host: mywebsite.com");
   client.println("User-Agent: Arduino");
   client.println();
 } else {
