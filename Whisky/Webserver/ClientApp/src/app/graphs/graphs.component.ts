@@ -1,68 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { single, multi } from './data';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MeasurementService } from '../measurement.service';
 
 @Component({
   selector: 'app-graphs',
   templateUrl: './graphs.component.html',
   styleUrls: ['./graphs.component.css']
 })
-export class GraphsComponent implements OnInit {
-  multi: any[];
-
-  view: any[] = [700, 400];
+export class GraphsComponent implements OnInit, OnDestroy {
+  private measurementSubscription: Subscription;
+  multi: any[] = [];
 
   // options
+  view: any[] = [700, 400];
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
-
+  yAxisLabel = 'Temperature';
+  autoScale = true;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  // line, area
-  autoScale = true;
+  constructor(private measurementService: MeasurementService) {
+  }
 
   ngOnInit(): void {
-    this.multi = [];
-    let data: any[] = [];
-    for (let i = 1; i < 20; i++) {
-      data.push({ "name": "" + i, "value": Math.random() * 0.6 / i });
-    }
-    this.multi.push({
-      "name": "Denmark",
-      "series": data
-    });
-
-
-    let data2: any[] = [];
-    for (let i = 1; i < 20; i++) {
-      data2.push({ "name": "" + i, "value": Math.random() * 0.6 / i });
-    }
-    this.multi.push({
-      "name": "Sweden",
-      "series": data2
-    });
-
-    this.multi = [...this.multi];
-
-    let i = 20;
-    setInterval(() => {
-      this.multi[0]["series"].push({ "name": "" + i, "value": Math.random() * 300 / (i*3) });
-      this.multi[1]["series"].push({ "name": "" + i, "value": Math.random() * 300 / (i*3) });
+    this.measurementSubscription = this.measurementService.measurements.subscribe(measurement => {
+      const element = { name: new Date(measurement.dateMeasured), value: measurement.temperature };
+      const sensorIndex = this.multi.findIndex(e => e["name"] == measurement.sensorID);
+      if (sensorIndex !== -1) {
+        this.multi[sensorIndex]["series"].push(element);
+      }
+      else {
+        this.multi.push({ name: measurement.sensorID, series: [element] });
+      }
       this.multi = [...this.multi];
-      console.log(this.multi);
-      i++;
-    }, 100)
+    });
   }
 
-  onSelect(event) {
-    console.log(event);
+  ngOnDestroy(): void {
+    this.measurementSubscription.unsubscribe();
   }
-
 }
