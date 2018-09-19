@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MeasurementService } from '../measurement.service';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-graphs',
@@ -26,7 +27,7 @@ export class GraphsComponent implements OnInit, OnDestroy {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  constructor(private measurementService: MeasurementService) {
+  constructor(private measurementService: MeasurementService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -40,6 +41,11 @@ export class GraphsComponent implements OnInit, OnDestroy {
         this.multi.push({ name: measurement.sensorID, series: [element] });
       }
       this.multi = [...this.multi];
+      if (environment.production) {
+        window.setTimeout(() => {
+          this.changeDetectorRef.detectChanges();
+        }, 75)
+      }
     });
   }
 
